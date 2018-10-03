@@ -4,7 +4,8 @@ grade: stable
 confinement: strict
 summary: ROS App Snap
 description: Contains talker/listener ROS2 app
-base: core18-ros2-james
+passthrough:
+  base: core18-ros2-james
 
 apps:
   talker:
