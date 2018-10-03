@@ -1,0 +1,38 @@
+name: ros2-app-james
+version: '1.0'
+grade: stable
+confinement: strict
+summary: ROS App Snap
+description: Contains talker/listener ROS2 app
+base: core18-ros2-james
+
+apps:
+  talker:
+    command: talker
+
+  listener:
+    command: listener
+
+parts:
+  app:
+    plugin: nil
+    build-packages:
+      - python3-pip
+      - python-rosdep
+    override-build: |
+      pip3 install -U colcon-common-extensions
+      #rosdep init
+      #rosdep update
+      colcon build
+      pwd
+      mkdir -p $SNAPCRAFT_PART_INSTALL/install
+      cp -r install/* $SNAPCRAFT_PART_INSTALL/install
+
+  run:
+    plugin: dump
+    stage:
+      - bin/talker
+      - bin/listener
+    prime:
+      - bin/talker
+      - bin/listener
